@@ -1,0 +1,11 @@
+{
+  "name": "aiwp-copilot",
+  "version": "0.1.0",
+  "description": "Context-Aware WordPress AI Widget powered by Gemini",
+  "scripts": {
+    "wp-env": "wp-env"
+  },
+  "devDependencies": {
+    "@wordpress/env": "^10.37.0"
+  }
+}

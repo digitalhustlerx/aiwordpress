@@ -1,0 +1,283 @@
+/*
+ * AIWP Copilot - Futuristic Docked Command Bar UI (God Mode)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap');
+
+:root {
+  --aiwp-bg: rgba(10, 10, 10, 0.85);
+  --aiwp-border: rgba(255, 255, 255, 0.1);
+  --aiwp-accent: #00f0ff;
+  --aiwp-accent-glow: rgba(0, 240, 255, 0.3);
+  --aiwp-text: #ffffff;
+  --aiwp-text-dim: rgba(255, 255, 255, 0.6);
+  --aiwp-glass: blur(20px) saturate(180%);
+}
+
+#aiwp-command-center {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999;
+  width: 100%;
+  max-width: 700px;
+  font-family: 'Outfit', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+  /* Let clicks through unless on the bar */
+}
+
+/* Proactive Suggestions Area */
+#aiwp-suggestions {
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: auto;
+}
+
+#aiwp-suggestions.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.aiwp-chip {
+  background: var(--aiwp-bg);
+  backdrop-filter: var(--aiwp-glass);
+  -webkit-backdrop-filter: var(--aiwp-glass);
+  border: 1px solid var(--aiwp-border);
+  color: var(--aiwp-text-dim);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.aiwp-chip:hover {
+  border-color: var(--aiwp-accent);
+  color: var(--aiwp-text);
+  box-shadow: 0 0 15px var(--aiwp-accent-glow);
+}
+
+/* Main Command Bar */
+#aiwp-main-bar {
+  width: 100%;
+  background: var(--aiwp-bg);
+  backdrop-filter: var(--aiwp-glass);
+  -webkit-backdrop-filter: var(--aiwp-glass);
+  border: 1px solid var(--aiwp-border);
+  border-radius: 16px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
+  transition: all 0.3s ease;
+}
+
+#aiwp-main-bar:focus-within {
+  border-color: var(--aiwp-accent);
+  box-shadow: 0 0 30px var(--aiwp-accent-glow);
+}
+
+/* Icon / Status */
+.aiwp-logo-glow {
+  width: 12px;
+  height: 12px;
+  background: var(--aiwp-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--aiwp-accent);
+  margin-left: 8px;
+}
+
+/* Textarea */
+#aiwp-prompt {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--aiwp-text);
+  font-size: 16px;
+  font-family: inherit;
+  resize: none;
+  padding: 10px 0;
+  outline: none;
+  max-height: 150px;
+  min-height: 24px;
+}
+
+#aiwp-prompt::placeholder {
+  color: var(--aiwp-text-dim);
+}
+
+/* Action Buttons */
+.aiwp-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.aiwp-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--aiwp-text-dim);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.aiwp-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--aiwp-accent);
+}
+
+.aiwp-icon-btn.active {
+  color: var(--aiwp-accent);
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 10px var(--aiwp-accent-glow);
+}
+
+.aiwp-send-active {
+  color: var(--aiwp-accent) !important;
+}
+
+/* Selection Mode Styles */
+body.aiwp-selecting {
+  cursor: crosshair !important;
+}
+
+.aiwp-hover-outline {
+  outline: 2px solid var(--aiwp-accent) !important;
+  cursor: pointer !important;
+}
+
+.aiwp-selected {
+  outline: 2px dashed #ff00ff !important;
+  position: relative;
+}
+
+/* Hidden elements */
+.aiwp-hidden {
+  display: none !important;
+}
+
+/* Chat History Overlay (Collapsible) */
+#aiwp-history-panel {
+  width: 100%;
+  background: var(--aiwp-bg);
+  backdrop-filter: var(--aiwp-glass);
+  border: 1px solid var(--aiwp-border);
+  border-radius: 16px;
+  padding: 15px;
+  margin-bottom: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  display: none;
+  /* Hidden by default */
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: auto;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+}
+
+#aiwp-history-panel.expanded {
+  display: flex !important;
+}
+
+/* Confirmation Bar */
+#aiwp-confirm-bar {
+  width: 100%;
+  background: var(--aiwp-bg);
+  backdrop-filter: var(--aiwp-glass);
+  border: 1px solid var(--aiwp-accent);
+  border-radius: 12px;
+  padding: 10px 15px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  pointer-events: auto;
+  box-shadow: 0 0 20px var(--aiwp-accent-glow);
+}
+
+.aiwp-confirm-text {
+  font-size: 13px;
+  color: var(--aiwp-text);
+}
+
+.aiwp-confirm-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.aiwp-btn-confirm {
+  background: #34c759;
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  border: none;
+}
+
+.aiwp-btn-cancel {
+  background: #ff3b30;
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  border: none;
+}
+
+.aiwp-log {
+  font-size: 13px;
+  color: var(--aiwp-text-dim);
+  line-height: 1.4;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.aiwp-log-user {
+  color: var(--aiwp-text);
+  border-left: 2px solid var(--aiwp-accent);
+}
+
+/* Animation for processing */
+@keyframes aiwp-pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.aiwp-processing .aiwp-logo-glow {
+  animation: aiwp-pulse 1.5s infinite;
+}
+
+/* Accessibility */
+@media (max-width: 768px) {
+  #aiwp-command-center {
+    width: 90%;
+    bottom: 15px;
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+local-wp/
+.wp-env/
+.wp-env.json
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
