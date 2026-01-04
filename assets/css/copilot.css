@@ -1,0 +1,368 @@
+/**
+ * AIWP Copilot Styles
+ * Version: 2.0.0
+ */
+
+/* ============================================
+   WIDGET CONTAINER
+   ============================================ */
+
+#aiwp-copilot-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 380px;
+    max-height: 700px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    z-index: 9999;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow: hidden;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.aiwp-header {
+    background: linear-gradient(135deg, #2271b1 0%, #135e96 100%);
+    color: #ffffff;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.aiwp-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    flex: 1;
+}
+
+.aiwp-header-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.aiwp-settings-toggle,
+.aiwp-toggle {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aiwp-settings-toggle:hover,
+.aiwp-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.aiwp-settings-toggle .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+/* ============================================
+   SETTINGS PANEL
+   ============================================ */
+
+.aiwp-settings-panel {
+    background: #f0f6fc;
+    border-bottom: 1px solid #ddd;
+    padding: 16px;
+}
+
+.aiwp-setting-row {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.aiwp-setting-row:last-child {
+    margin-bottom: 0;
+}
+
+.aiwp-setting-row label {
+    font-weight: 600;
+    font-size: 12px;
+    color: #1e1e1e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.aiwp-control-select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.aiwp-control-select:focus {
+    outline: none;
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+}
+
+.aiwp-tool-btn {
+    padding: 8px 12px;
+    background: #2271b1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+}
+
+.aiwp-tool-btn:hover {
+    background: #135e96;
+}
+
+.aiwp-tool-btn.active {
+    background: #dc3232;
+}
+
+.aiwp-tool-btn .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+#aiwp-selected-element-info {
+    display: inline-block;
+    margin-left: 8px;
+    color: #00a32a;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ============================================
+   BODY
+   ============================================ */
+
+.aiwp-body {
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+    background: #f9f9f9;
+}
+
+/* ============================================
+   MESSAGES
+   ============================================ */
+
+.aiwp-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #ffffff;
+}
+
+.aiwp-message {
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    max-width: 85%;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.aiwp-message-user {
+    background: #2271b1;
+    color: #ffffff;
+    margin-left: auto;
+    text-align: right;
+}
+
+.aiwp-message-assistant {
+    background: #f0f0f1;
+    color: #1e1e1e;
+}
+
+.aiwp-message-error {
+    background: #dc3232;
+    color: #ffffff;
+}
+
+.aiwp-message-system {
+    background: #00a32a;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 8px 12px;
+}
+
+.aiwp-message code {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+}
+
+.aiwp-message pre {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 8px 0;
+}
+
+.aiwp-message pre code {
+    background: none;
+    padding: 0;
+}
+
+/* ============================================
+   INPUT CONTAINER
+   ============================================ */
+
+.aiwp-input-container {
+    padding: 16px;
+    background: #ffffff;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+#aiwp-prompt {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    transition: border-color 0.2s;
+}
+
+#aiwp-prompt:focus {
+    outline: none;
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+}
+
+.aiwp-send-btn {
+    background: #2271b1;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+}
+
+.aiwp-send-btn:hover {
+    background: #135e96;
+}
+
+.aiwp-send-btn:active {
+    transform: scale(0.98);
+}
+
+.aiwp-send-btn .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* ============================================
+   ELEMENT SELECTOR OVERLAY
+   ============================================ */
+
+.aiwp-selector-active * {
+    cursor: crosshair !important;
+}
+
+.aiwp-highlight {
+    outline: 3px solid #2271b1 !important;
+    outline-offset: 2px;
+    background: rgba(34, 113, 177, 0.1) !important;
+    position: relative;
+}
+
+.aiwp-highlight::after {
+    content: 'Click to select';
+    position: absolute;
+    top: -30px;
+    left: 0;
+    background: #2271b1;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+.aiwp-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.aiwp-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.aiwp-messages::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.aiwp-messages::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    #aiwp-copilot-widget {
+        width: 100%;
+        bottom: 0;
+        right: 0;
+        border-radius: 12px 12px 0 0;
+        max-height: 80vh;
+    }
+}

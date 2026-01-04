@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.0/phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    colors="true"
+    verbose="true"
+    stopOnFailure="false"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true">
+
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory>tests/php/unit</directory>
+        </testsuite>
+        <testsuite name="Integration Tests">
+            <directory>tests/php/integration</directory>
+        </testsuite>
+        <testsuite name="Security Tests">
+            <directory>tests/php/security</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">includes</directory>
+            <file>aiwp-copilot.php</file>
+        </include>
+        <exclude>
+            <directory>includes/settings-page.php</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="coverage/php"/>
+            <clover outputFile="coverage/clover.xml"/>
+            <text outputFile="php://stdout" showUncoveredFiles="true"/>
+        </report>
+    </coverage>
+
+    <php>
+        <env name="WP_TESTS_DIR" value="./vendor/wp-phpunit/wp-phpunit"/>
+        <const name="WP_TESTS_PHPUNIT_POLYFILLS_PATH" value="./vendor/yoast/phpunit-polyfills"/>
+    </php>
+</phpunit>

@@ -1,0 +1,101 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  php-tests:
+    name: PHP ${{ matrix.php }} - WP ${{ matrix.wordpress }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: ['7.4', '8.0', '8.1', '8.2']
+        wordpress: ['6.0', '6.1', '6.2', '6.3', '6.4']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, intl, mysqli
+          coverage: xdebug
+          tools: composer
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install composer dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run PHPUnit tests
+        run: composer test
+
+      - name: Run PHPStan
+        run: composer phpstan
+        continue-on-error: true
+
+      - name: Run PHPCS
+        run: composer phpcs
+        continue-on-error: true
+
+      - name: Upload coverage to Codecov
+        if: matrix.php == '8.1' && matrix.wordpress == '6.4'
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/clover.xml
+          flags: php
+
+  js-tests:
+    name: JavaScript Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Jest tests
+        run: npm test -- --ci --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/js/lcov.info
+          flags: javascript
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run security scanner
+        uses: secureCodeBox/secureCodeBox-scanner-action@v1
+        with:
+          scan-type: 'wordpress-plugin'
+        continue-on-error: true
